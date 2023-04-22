@@ -3,14 +3,15 @@ package myPresentation;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class GUI extends JFrame {
     //atributos
     private JButton myPhoto, myHobby, myExpectations;
     private JPanel containerButtons, containerImage;
     private Listener listener;
+    private ListenerMouse listenerMouse;
+    private ListenerKeygen listenerKeygen;
     private Title title;
     private JLabel imageLabel;
     private JTextArea expectativesText;
@@ -37,6 +38,8 @@ public class GUI extends JFrame {
         containerButtons = new JPanel();
         containerImage = new JPanel();
         listener = new Listener();
+        listenerMouse = new ListenerMouse();
+        listenerKeygen = new ListenerKeygen();
         imageLabel = new JLabel();
         expectativesText = new JTextArea(10, 12);
 
@@ -48,8 +51,11 @@ public class GUI extends JFrame {
         containerButtons.add(myExpectations);
 
         myPhoto.addActionListener(listener);
-        myHobby.addActionListener(listener);
         myExpectations.addActionListener(listener);
+        myHobby.addMouseListener(listenerMouse);
+
+        this.addKeyListener(listenerKeygen);
+        this.requestFocusInWindow();
 
         this.add(title, BorderLayout.NORTH);
         this.add(containerButtons, BorderLayout.SOUTH);
@@ -67,26 +73,56 @@ public class GUI extends JFrame {
 
     private class Listener implements ActionListener{
         private ImageIcon image;
+
         @Override
         public void actionPerformed(ActionEvent e) {
             //JOptionPane.showMessageDialog(null, "Press button");
             imageLabel.setIcon(null);
             containerImage.remove(expectativesText);
-            if(e.getSource() == myPhoto){
+            if (e.getSource() == myPhoto) {
                 this.image = new ImageIcon(getClass().getResource("/resources/Me.jpg"));
                 imageLabel.setIcon(image);
-            }else if(e.getSource() == myHobby){
-                this.image = new ImageIcon(getClass().getResource("/resources/Hobby.jpg"));
-                imageLabel.setIcon(image);
-            }else if(e.getSource() == myExpectations) {
-                expectativesText.setText("I expect to get the best of everyone of you \n" +
-                        "My contact is carlos.felipe.montoya@correounivalle.edu.co");
+            } else if (e.getSource() == myExpectations) {
+                expectativesText.setText("Espero aprender mucho sobre el frontend y las cosas que se pueden realizar con los eventos," +
+                        "\naunque en mi futuro me vea como un back, lo mejor es saber tambien de front \n" +
+                        "Mi contacto es juan.pablo.marin@correounivalle.edu.co");
                 expectativesText.setBackground(null);
                 expectativesText.setForeground(Color.BLACK);
                 containerImage.add(expectativesText);
             }
-            revalidate();
+            validate();
             repaint();
+            GUI.this.requestFocusInWindow();
+        }
+    }
+    private class ListenerMouse extends MouseAdapter{
+        private ImageIcon image;
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                imageLabel.setIcon(null);
+                containerImage.remove(expectativesText);
+                this.image = new ImageIcon(getClass().getResource("/resources/Hobby.jpg"));
+                imageLabel.setIcon(image);
+            }
+            GUI.this.requestFocusInWindow();
+        }
+    }
+    private class ListenerKeygen extends KeyAdapter{
+
+        private ImageIcon image;
+        // para ejecutar el texto de las expectativas.
+        public void keyPressed(KeyEvent e) {
+            imageLabel.setIcon(null);
+            containerImage.remove(expectativesText);
+            if (e.getKeyCode() == KeyEvent.VK_M) {
+                expectativesText.setText("Espero aprender mucho sobre el frontend y las cosas que se pueden realizar con los eventos," +
+                        "\naunque en mi futuro me vea como un back, lo mejor es saber tambien de front \n" +
+                        "Mi contacto es juan.pablo.marin@correounivalle.edu.co");
+                expectativesText.setBackground(null);
+                expectativesText.setForeground(Color.BLACK);
+                containerImage.add(expectativesText);
+            }
         }
     }
 }
