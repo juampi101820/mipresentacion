@@ -51,9 +51,7 @@ public class GUI extends JFrame {
         containerButtons.add(myExpectations);
 
         myPhoto.addActionListener(listener);
-        myExpectations.addActionListener(listener);
         myHobby.addMouseListener(listenerMouse);
-
         this.addKeyListener(listenerKeygen);
         this.requestFocusInWindow();
 
@@ -82,13 +80,6 @@ public class GUI extends JFrame {
             if (e.getSource() == myPhoto) {
                 this.image = new ImageIcon(getClass().getResource("/resources/Me.jpg"));
                 imageLabel.setIcon(image);
-            } else if (e.getSource() == myExpectations) {
-                expectativesText.setText("Espero aprender mucho sobre el frontend y las cosas que se pueden realizar con los eventos," +
-                        "\naunque en mi futuro me vea como un back, lo mejor es saber tambien de front \n" +
-                        "Mi contacto es juan.pablo.marin@correounivalle.edu.co");
-                expectativesText.setBackground(null);
-                expectativesText.setForeground(Color.BLACK);
-                containerImage.add(expectativesText);
             }
             validate();
             repaint();
