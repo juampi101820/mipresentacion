@@ -53,7 +53,11 @@ public class GUI extends JFrame {
         myPhoto.addActionListener(listener);
         myHobby.addMouseListener(listenerMouse);
         this.addKeyListener(listenerKeygen);
-        this.requestFocusInWindow();
+
+        // evitar que los botones obtengan focus al ser presionados
+        myPhoto.setFocusable(false);
+        myHobby.setFocusable(false);
+        myExpectations.setFocusable(false);
 
         this.add(title, BorderLayout.NORTH);
         this.add(containerButtons, BorderLayout.SOUTH);
@@ -83,7 +87,6 @@ public class GUI extends JFrame {
             }
             validate();
             repaint();
-            GUI.this.requestFocusInWindow();
         }
     }
     private class ListenerMouse extends MouseAdapter{
@@ -96,7 +99,6 @@ public class GUI extends JFrame {
                 this.image = new ImageIcon(getClass().getResource("/resources/Hobby.jpg"));
                 imageLabel.setIcon(image);
             }
-            GUI.this.requestFocusInWindow();
         }
     }
     private class ListenerKeygen extends KeyAdapter{
